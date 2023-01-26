@@ -1,46 +1,103 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View, TextInput, Button, Item } from 'react-native';
+import { StyleSheet, Text, View, Button, FlatList } from "react-native"
+import React, { useState } from "react"
+import Modal from "./src/Componentes/Modal"
+import AddItem from "./src/Componentes/AddItem"
 
 export default function App() {
-  return (
-    <View style={styles.screen}>
-      <View 
-        style={styles.inputContainer}
-        >
-        <TextInput placeholder='Item de la Lista'
-        style={styles.inputContainer}
-        />
-        <Button title='+'/>
-      </View>
-      <View style={styles.listContainer}> 
-      <Button title='Name'></Button>
-      </View>
 
+  const [textItem, setTextItem] = useState("")
+  const [list, setList] = useState([])
+  const [itemSelected, setItemSelected] = useState("")
+  const [modalVisible, setModalVisible] = useState(false)
+
+  const onHandleChangeItem = text => {
+    setTextItem(text)
+  }
+
+  const addItem = () => {
+    setList(prevState => [...prevState, textItem])
+    setTextItem("")
+  }
+
+  const handleModal = item => {
+    setItemSelected(item)
+    setModalVisible(true)
+  }
+
+  const onHandleDelete = item => {
+    setList(prevState => prevState.filter(element => element !== item))
+    setModalVisible(!modalVisible)
+  }
+
+  const renderItem = ({ item }) => (
+    <View style={styles.renderItemStyle}>
+      <Text>{item}</Text>
+      <Button title="Editar" onPress={() => handleModal(item)} />
     </View>
-  );
+  )
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>Lista de Actividades</Text>
+        <AddItem
+          onChange={onHandleChangeItem}
+          textValue={textItem}
+          onAddItem={addItem}
+        />
+      </View>
+      <View style={styles.listContainer}>
+        <FlatList
+          data={list}
+          renderItem={renderItem}
+          keyExtractor={item => item}
+        />
+      </View>
+      <Modal
+        isVisible={modalVisible}
+        itemSelected={itemSelected}
+        actionDeleteItem={() => onHandleDelete(itemSelected)}
+        onDismissModal={setModalVisible}
+      />
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
-  screen: {
-    padding: 50
+  container: {
+    flex: 1,
+    backgroundColor: "whitesmoke",
   },
-  inputContainer: {
-    flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center'
+  titleContainer: {
+    height: 200,
+    paddingHorizontal: 30,
+    paddingTop: 80,
   },
-  input: {
-    borderBottomColor: 'black', 
-      borderBottomWidth: 1,
-      width: 200
+  title: {
+    marginBottom: 30,
+    fontSize: 40,
+    fontWeight: "500",
+    color: "#1E283C",
   },
   listContainer: {
-    padding: 60,
-    marginTop: 10,
-    borderColor: 'black',
-    borderWidth: 1
-  }
-
-});
-
+    flex: 2,
+    marginHorizontal: 30,
+    marginTop: 40,
+    padding: 3,
+  },
+  renderItemStyle: {
+    height: 60,
+    flexDirection: "row",
+    marginTop: 25,
+    backgroundColor: "white",
+    borderRadius: 10,
+    padding: 10,
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    shadowColor: "black",
+    shadowOpacity: 0.3,
+    shadowOffset: { width: 0, height: 1 },
+    shadowRadius: 2,
+    elevation: 3,
+  },
+})
