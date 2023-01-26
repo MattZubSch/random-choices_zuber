@@ -1,0 +1,285 @@
+app.js 
+
+import { StyleSheet, Text, View, Button, FlatList } from "react-native"
+import React, { useState } from "react"
+import Modal from "./src/Componentes/Modal"
+import AddItem from "./src/Componentes/AddItem"
+// import { GREY_COLOR, BLACK_COLOR, WHITE_COLOR } from './globalStyles';
+
+export default function App() {
+
+  const [textItem, setTextItem] = useState("")
+  const [list, setList] = useState([])
+  const [itemSelected, setItemSelected] = useState("")
+  const [modalVisible, setModalVisible] = useState(false)
+  const [itemComplete, setItemComplete] = useState([]);
+
+  const onHandleChangeItem = text => {
+    setTextItem(text)
+  }
+
+  const addItem = () => {
+    setList(prevState => [...prevState, textItem])
+    setTextItem("")
+  }
+
+
+  function isComplete(item){
+    return itemComplete.includes(item)
+  }
+
+  function onHandleComplete(item){
+    if(!isComplete(item)){
+      setItemComplete(prevState => [...prevState, item])
+    } else{
+      setItemComplete(prevState => prevState.filter((itemComplete)=> item !== itemComplete))
+    }
+  }
+
+  // const onHandleComplete = item => {
+  //   setItemSelected(item)
+  //   setDisabled(!isDisabled)
+  //   setModalVisible(!modalVisible)
+  // }
+
+  const handleModal = item => {
+    setItemSelected(item)
+    setModalVisible(true)
+  }
+
+  const onHandleDelete = item => {
+    setList(prevState => prevState.filter(element => element !== item))
+    setModalVisible(!modalVisible)
+  }
+
+  const renderItem = ({ item }) => (
+    <View style={styles.renderItemStyle}>
+      <Text style={[
+        { color: isComplete ? "black" : "lime" }
+      ]}
+      value={isComplete}>{item}</Text>
+      <Button title="Editar" onPress={() => handleModal(item)} />
+    </View>
+  )
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>Lista de Actividades</Text>
+        <AddItem
+          onChange={onHandleChangeItem}
+          textValue={textItem}
+          onAddItem={addItem}
+        />
+      </View>
+      <View style={styles.listContainer}>
+        <FlatList
+          data={list}
+          renderItem={renderItem}
+          keyExtractor={item => item}
+        />
+      </View>
+      <Modal
+        isVisible={modalVisible}
+        itemSelected={itemSelected}
+        actionDeleteItem={() => onHandleDelete(itemSelected)}
+        onDismissModal={setModalVisible}
+        isComplete={isComplete(itemSelected)}
+        actionCompleteItem={() => onHandleComplete(itemSelected)}
+      />
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "whitesmoke",
+  },
+  titleContainer: {
+    height: 200,
+    paddingHorizontal: 30,
+    paddingTop: 80,
+  },
+  title: {
+    marginBottom: 30,
+    fontSize: 40,
+    fontWeight: "500",
+    color: "#1E283C",
+  },
+  listContainer: {
+    flex: 2,
+    marginHorizontal: 30,
+    marginTop: 40,
+    padding: 3,
+  },
+  renderItemStyle: {
+    height: 60,
+    flexDirection: "row",
+    marginTop: 25,
+    backgroundColor: "white",
+    borderRadius: 10,
+    padding: 10,
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    shadowColor: "black",
+    shadowOpacity: 0.3,
+    shadowOffset: { width: 0, height: 1 },
+    shadowRadius: 2,
+    elevation: 3,
+  },
+  renderItemCompleteStyle: {
+    height: 60,
+    flexDirection: "row",
+    marginTop: 25,
+    backgroundColor: "lime",
+    borderRadius: 10,
+    padding: 10,
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    shadowColor: "black",
+    shadowOpacity: 0.3,
+    shadowOffset: { width: 0, height: 1 },
+    shadowRadius: 2,
+    elevation: 3,
+  },
+})
+
+
+Item.js 
+
+import {View, Text, StyleSheet} from "react-native"
+
+export default function RenderItem({item, handleDetail, isHighlighted, handleHighlightItem}){
+    return(
+        <View style={!isHighlighted(item)?  {...styles.itemContainer, backgroundColor: "rgba(255, 255, 255, 0.5)"}: {...styles.itemContainer, backgroundColor: "rgb(34, 139, 34)"}}>
+            <PurpleButton title={`${!isHighlighted(item)? "▷": "▶" }`} onPress={handleHighlightItem}/>
+            <Text style={styles.item}>
+                {item}
+            </Text>
+            <PurpleButton title='Detalle' onPress={handleDetail} color={"#44C"}/>
+        </View>
+    )
+}
+
+const styles = StyleSheet.create({
+    itemContainer:{
+        margin: 3,
+        width: 300,
+        padding: 7,
+        borderRadius: "10",
+        shadowColor: "black",
+        flexDirection: "row",
+        justifyContent: "space-around",
+        marginTop:10,
+        marginBottom:10,
+        backgroundColor: "rgba(255, 255, 255, 0.5)",
+        shadowColor: "black",
+        shadowOffset: {width: 0.1, height: 0.4},
+        shadowOpacity: 0.5,
+        shadowRadius: 2,
+    },
+    item:{
+        fontSize: 30,
+        width: 200,
+        color: "rgb(20, 50, 50)",
+        textAlign: "center"
+    },
+})
+
+AddItem.js  
+
+import { StyleSheet, TextInput, View, Button } from "react-native"
+import React from "react"
+
+const AddItem = ({ onChange, textValue, onAddItem }) => {
+  return (
+    <View style={styles.inputContainer}>
+      <TextInput
+        placeholder="Escribir aqui"
+        style={styles.addItemInput}
+        onChangeText={onChange}
+        value={textValue}
+      />
+      <Button title="Agregar" onPress={onAddItem} />
+    </View>
+  )
+}
+
+export default AddItem
+
+const styles = StyleSheet.create({
+  inputContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  addItemInput: {
+    backgroundColor: "white",
+    borderRadius: 15,
+    padding: 10,
+    width: "70%",
+    height: 50,
+    shadowColor: "black",
+    shadowOpacity: 0.3,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 6,
+    elevation: 3,
+  },
+})
+
+modal.js
+
+import React from "react"
+import { View, StyleSheet, Text, Button, Modal as NewModal } from "react-native"
+
+const Modal = ({
+  isVisible,
+  actionDeleteItem,
+  itemSelected,
+  onDismissModal,
+  isComplete,
+  actionCompleteItem,
+}) => {
+  return (
+    <NewModal animationType="fade" transparent={true} visible={isVisible}>
+      <View style={styles.modalContainer}>
+        <View style={styles.modalStyle}>
+          <Text style={styles.modalTextStyle}>{itemSelected}</Text>
+          <Button title="Borrar" onPress={() => actionDeleteItem()} />
+          <Button title="Marcar"  onPress={actionCompleteItem}/>
+          <Button title="Ignorar" onPress={() => onDismissModal(false)} />
+        </View>
+      </View>
+    </NewModal>
+  )
+}
+
+export default Modal
+
+const styles = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalStyle: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 40,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalTextStyle: {
+    fontSize: 30,
+  },
+})

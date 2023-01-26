@@ -1,50 +1,60 @@
-import React from "react"
-import { View, StyleSheet, Text, Button, Modal as NewModal } from "react-native"
+import { StyleSheet, Text, View, Modal as ModalNative, Pressable} from 'react-native'
+import React from 'react'
 
-const Modal = ({
-  isVisible,
-  actionDeleteItem,
-  itemSelected,
-  onDismissModal,
-}) => {
-  return (
-    <NewModal animationType="fade" transparent={true} visible={isVisible}>
-      <View style={styles.modalContainer}>
-        <View style={styles.modalStyle}>
-          <Text style={styles.modalTextStyle}>{itemSelected}</Text>
-          <Button title="Borrar" onPress={() => actionDeleteItem()} />
-          <Button title="Ignorar" onPress={() => onDismissModal(false)} />
-        </View>
-      </View>
-    </NewModal>
-  )
+const Modal = ({itemSelected, isVisible, buttonPrimaryAction, buttonSecondaryAction, buttonHide, isHighlighted}) => {
+    return(
+        <ModalNative
+        animationType='fade'
+        transparent={true}
+        visible={isVisible}
+        >
+            <Pressable style={styles.modalStyle} onPress={buttonHide}>
+                <View style={!isHighlighted(itemSelected)? {...styles.modalView, backgroundColor: "rgb(230, 200, 230)"}: {...styles.modalView, backgroundColor: "rgb(4, 139, 34)"}}>
+                    <Text style={styles.modalText}>{itemSelected}</Text>
+                    <View style={styles.buttonsContainer}>
+                        <Button title='Eliminar' onPress={buttonPrimaryAction}/>
+                        <Button title={`${!isHighlighted(itemSelected)? "Marcar": "Desmarcar"}`} onPress={buttonSecondaryAction}/>
+                        <Button title='Ocultar' onPress={buttonHide}/>
+                    </View>
+                </View>
+            </Pressable>
+
+        </ModalNative>
+    )
 }
 
 export default Modal
 
 const styles = StyleSheet.create({
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
-  },
-  modalStyle: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 40,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
+    modalStyle:{
+        flex:1,
+        backgroundColor: "rgba(10, 5, 20, 0.5)",
+        alignItems: "center",
+        justifyContent: "center",
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  modalTextStyle: {
-    fontSize: 30,
-  },
+    modalView:{
+        minWidth: "70%",
+        minHeight:"40%",
+        marginVertical: "auto",
+        justifyContent: "center",
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        borderRadius: 30,
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+    modalText:{
+        fontSize: 50,
+
+    }
+    ,
+    buttonsContainer:{
+        paddingTop: 10,
+        flexDirection: "row"
+    }
 })
