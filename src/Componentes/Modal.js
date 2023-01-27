@@ -1,7 +1,7 @@
-import { StyleSheet, Text, View, Modal as ModalNative, Pressable} from 'react-native'
+import { StyleSheet, Text, View, Modal as ModalNative, Pressable, Button} from 'react-native'
 import React from 'react'
 
-const Modal = ({itemSelected, isVisible, buttonPrimaryAction, buttonSecondaryAction, buttonHide, isHighlighted}) => {
+const Modal = ({itemSelected, isVisible, buttonPrimaryAction, buttonSecondaryAction, buttonHide, isComplete}) => {
     return(
         <ModalNative
         animationType='fade'
@@ -9,11 +9,11 @@ const Modal = ({itemSelected, isVisible, buttonPrimaryAction, buttonSecondaryAct
         visible={isVisible}
         >
             <Pressable style={styles.modalStyle} onPress={buttonHide}>
-                <View style={!isHighlighted(itemSelected)? {...styles.modalView, backgroundColor: "rgb(230, 200, 230)"}: {...styles.modalView, backgroundColor: "rgb(4, 139, 34)"}}>
+                <View style={!isComplete(itemSelected)? {...styles.modalView, backgroundColor: "#FF5151"}: {...styles.modalView, backgroundColor: "#51FF62"}}>
                     <Text style={styles.modalText}>{itemSelected}</Text>
                     <View style={styles.buttonsContainer}>
                         <Button title='Eliminar' onPress={buttonPrimaryAction}/>
-                        <Button title={`${!isHighlighted(itemSelected)? "Marcar": "Desmarcar"}`} onPress={buttonSecondaryAction}/>
+                        <Button title={`${!isComplete(itemSelected)? "Marcar": "Desmarcar"}`} onPress={buttonSecondaryAction}/>
                         <Button title='Ocultar' onPress={buttonHide}/>
                     </View>
                 </View>

@@ -1,38 +1,50 @@
-import { StyleSheet, TextInput, View, Button } from "react-native"
-import React from "react"
+import {View, TextInput, Button, StyleSheet} from "react-native"
 
-const AddItem = ({ onChange, textValue, onAddItem }) => {
-  return (
-    <View style={styles.inputContainer}>
-      <TextInput
-        placeholder="Escribir aqui"
-        style={styles.addItemInput}
-        onChangeText={onChange}
-        value={textValue}
-      />
-      <Button title="Agregar" onPress={onAddItem} />
+
+export default function AddItemsContainer({handleSetItem, item, handleAdd}){
+    return(
+        <View style={styles.textInputContainer}>
+        <View style={{flexDirection: "row"}}>
+            <TextInput
+            placeholder='Ingresar tarea'
+            style={styles.textInput}
+            onChangeText={handleSetItem}
+            value={item}
+            />
+            <View style={styles.addButton}>
+            <Button
+            title='Agregar'
+            onPress={handleAdd}
+            color={"#8FC8DA"}
+            />
+        </View>
     </View>
-  )
+    </View>
+    )
 }
 
-export default AddItem
-
 const styles = StyleSheet.create({
-  inputContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  addItemInput: {
-    backgroundColor: "white",
-    borderRadius: 15,
-    padding: 10,
-    width: "70%",
-    height: 50,
-    shadowColor: "black",
-    shadowOpacity: 0.3,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 6,
-    elevation: 3,
-  },
+    textInputContainer:{
+        flex: 1,
+        justifyContent: "flex-start",
+        paddingTop: 30,
+        alignItems: "center",
+    },
+    addButton:{
+        borderRadius: 10,
+        marginLeft: 5,
+        backgroundColor: "rgb(155, 120, 180)",
+        shadowColor: "rgb(20, 10, 30)",
+        shadowOffset: {width: 0.1, height: 0.4},
+        shadowOpacity: 0.7
+    },
+    textInput:{
+        backgroundColor: "#DEDBD5",
+        borderRadius: 10,
+        width: 200,
+        shadowColor: "black",
+        shadowOffset: {width: 0.1, height: 0.4},
+        shadowOpacity: 0.5,
+        shadowRadius: 10
+    },
 })
