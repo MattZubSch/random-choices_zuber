@@ -1,12 +1,12 @@
 import {View, FlatList, StyleSheet} from "react-native"
-import RenderItem from "./Item"
+import RenderCategory from "./Category"
 
-export default function ItemList({list, handleModal, isComplete, handleCompleteItem}){
+export default function CategoryList({list}){
     return(
         <View style={styles.listContainer}>
             <FlatList
             data={list}
-            renderItem={({item}) => <RenderItem item={item} handleModal={()=> handleModal(item)} isComplete={()=> isComplete(item)} handleCompleteItem={()=> handleCompleteItem(item)}/>}
+            renderItem={({item}) => <RenderCategory item={item} />}
             keyExtractor={item => item}
             />
         </View>
