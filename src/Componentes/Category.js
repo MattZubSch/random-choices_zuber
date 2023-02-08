@@ -1,37 +1,65 @@
-import {View, Text, StyleSheet, Button} from "react-native"
+import {View, Text, StyleSheet, Button, TouchableOpacity} from "react-native"
 import Card from "./Card"
+import { useState } from "react"
 
-export default function RenderCategory({item}){
+const RenderCategory = props => {
+
+    const [work, setWork] = useState(false)
+    
+    const { category } = props
+
+
+    function handlerWork(){
+        setWork(!work)
+    }
     return(
         <View>
-            <Card style={styles.categoryContainer}>
-                <Text style={styles.category}>
-                    {item}
+            <TouchableOpacity onPress={handlerWork}>
+
+            <Card style={styles.categoryContainer} onClick={handlerWork}>
+                <Button title={"▶"} style={styles.button}/>
+                <Text style={styles.category} >
+                    {category}
                 </Text>
-                <Button title={"▶"} />
             </Card>
+            {work && (
+                <Text>hola</Text>
+                )}
+        </TouchableOpacity>
         </View>
     )
 }
 
+export default RenderCategory
+
 const styles = StyleSheet.create({
     categoryContainer:{
         margin: 3,
-        width: '90%',
-        padding: 7,
+        width: '100%',
+        // maxWidth: 500,
+        padding: 10,
         shadowColor: "black",
         flexDirection: "row",
-        justifyContent: "center",
+        // justifyContent: "space-between",
         marginTop: 10,
         marginBottom: 10,
        
     },
     category: {
-        marginBottom: 10,
+        margin: 10,
         fontSize: 30,
         fontWeight: "500",
         color: "black",
         alignItems: "center",
         justifyContent: 'center'
+    },
+    button: {
+        alignContent: "center",
+        // justifyContent: 'center',
     }
 })
+//<TouchableOpacity>
+{/* <View style={styles.button}>
+<Text style={styles.buttonText}>TouchableOpacity</Text>
+</View>
+</TouchableOpacity> */}

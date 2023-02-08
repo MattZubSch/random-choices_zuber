@@ -1,9 +1,14 @@
 import { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, SafeAreaView } from 'react-native';
 
+import AppNavigator from './src/navigation/AppNavigator';
 
 import Header from './src/Componentes/Header';
 import MainScreen from './src/screens/MainScreen';
+import RandomNumber from './src/screens/RandomNumber'
+import RandomList from './src/screens/RandomList'
+import RandomTeam from './src/screens/RandomTeam'
+import { NavigationContainer } from '@react-navigation/native';
 
 export default function App() {
 //   const [list, setList] = useState([])
@@ -56,15 +61,39 @@ export default function App() {
 //     setModalVisible(false)
 //     setItemSelected(null)
 //   }
+  // const [userSelection, setUserSelection] = useState()
+
+
+  // const handlerSelection = selection => {
+  //   setUserSelection(selection)
+  // }
+
+  // let content = <MainScreen onSelectOption={handlerSelection} />
+
+  // if (userSelection === 'number') {
+  //   content = <RandomNumber onSelectOption={handlerSelection} />
+  // } 
+  // if (userSelection === 'list') {
+  //   content = <RandomList onSelectOption={handlerSelection} />
+  // } 
+  // if (userSelection === 'team') {
+  //   content = <RandomTeam onSelectOption={handlerSelection} />
+  // } 
 
   return (
-    <View style={styles.mainContainer}>
-      {/* <View style={styles.titleContainer}>
-        <Text style={styles.title}>Lista de Tareas</Text>
-      </View> */}
-      <Header title={'Random Choices'} />
-      <MainScreen />
-        {/* <AddItem 
+      <AppNavigator />
+    
+  );
+}
+
+const styles = StyleSheet.create({
+  mainContainer:{
+    flex: 1,
+    backgroundColor: "#EEECE8",
+  }
+});
+
+ {/* <AddItem 
           handleSetItem={handleSetItem} 
           handleAdd={handleAdd} 
           item={item} 
@@ -83,38 +112,3 @@ export default function App() {
         buttonHide={handleHideModal} 
         isComplete={isComplete}
       /> */}
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  mainContainer:{
-    flex: 1,
-    backgroundColor: "#EEECE8",
-  },
-  categoryContainer:{
-    margin: 10,
-    flex: 1,
-    backgroundColor: "#EEECE8",
-    height: 1
-  },
-  titleContainer: {
-    height: 200,
-    paddingTop: 80,
-    alignItems: "center",
-  },
-  title: {
-    marginBottom: 30,
-    fontSize: 40,
-    fontWeight: "500",
-    color: "black",
-  },
-  subtitle: {
-    marginBottom: 10,
-    fontSize: 30,
-    fontWeight: "500",
-    color: "black",
-    alignItems: "center",
-    justifyContent: 'center'
-  }
-});

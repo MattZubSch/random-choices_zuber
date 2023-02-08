@@ -6,7 +6,7 @@ export default function CategoryList({list}){
         <View style={styles.listContainer}>
             <FlatList
             data={list}
-            renderItem={({item}) => <RenderCategory item={item} />}
+            renderItem={({item}) => <RenderCategory category={item} />}
             keyExtractor={item => item}
             />
         </View>
@@ -15,9 +15,11 @@ export default function CategoryList({list}){
 
 const styles = StyleSheet.create({
     listContainer:{
-        flex: 10,
-        justifyContent: "center",
-        alignItems:"center",
+        flex: 1,
+        // justifyContent: "center",
+        // alignItems:"center",
+        marginLeft: '3%',
+        marginRight: '4%',
         color: "white"
     },
 })
