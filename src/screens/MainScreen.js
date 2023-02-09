@@ -63,23 +63,6 @@ const MainScreen = ({ navigation }) => {
              </TouchableOpacity>
            </ScrollView>
         </KeyboardAvoidingView>
-        // <View>
-        //     <Text style={styles.category}>MainScreen</Text>
-        // </View>
-        //  <View style={{flex: 1}}> 
-        //     <View style={styles.header}>
-        //         <Text style={styles.title}>ADD TASKS</Text>
-        //     </View> 
-            
-        //     <ScrollView>
-                
-        //     </ScrollView>
-
-        //     <View style={styles.footer}>
-        //         <Button title="ADD TASKS" onPress={ () => navigation.push('AddTasks') } />
-        //         <Button title="VIEW TASKS" onPress={ () => navigation.push('ViewTasks') } />
-        //     </View>
-        // </View>
     )
 }
 
@@ -96,6 +79,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 10,
         alignItems: "center",
+        backgroundColor: Colors.background,
         // justifyContent: 'center'
     },
     mainContainer: {
@@ -104,6 +88,7 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'center',
         flexDirection: "column",
+        backgroundColor: Colors.secondary
     },
     category: {
         margin: 10,

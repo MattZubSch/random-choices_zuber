@@ -1,15 +1,7 @@
-import { useState } from 'react';
 import { StyleSheet, View, SafeAreaView } from 'react-native';
 
 import AppNavigator from './src/navigation/AppNavigator';
-
-import Header from './src/Componentes/Header';
-import MainScreen from './src/screens/MainScreen';
-import RandomNumber from './src/screens/RandomNumber'
-import RandomList from './src/screens/RandomList'
-import RandomTeam from './src/screens/RandomTeam'
-import { NavigationContainer } from '@react-navigation/native';
-
+import MainNavigator from './src/navigation';
 export default function App() {
 //   const [list, setList] = useState([])
 //   const [complete, setComplete] = useState([])
@@ -81,7 +73,8 @@ export default function App() {
   // } 
 
   return (
-      <AppNavigator />
+      <AppNavigator style={styles.mainContainer}>
+      </AppNavigator>
     
   );
 }
