@@ -2,6 +2,11 @@ import { StyleSheet, View, SafeAreaView } from 'react-native';
 
 import AppNavigator from './src/navigation/AppNavigator';
 import MainNavigator from './src/navigation';
+import RndNumberNavigator from './src/navigation/RndNumberNavigator';
+import TabNavigator from './src/navigation/TabNavigator';
+import { NavigationContainer } from '@react-navigation/native';
+import Header from './src/Componentes/Header';
+
 export default function App() {
 //   const [list, setList] = useState([])
 //   const [complete, setComplete] = useState([])
@@ -73,8 +78,14 @@ export default function App() {
   // } 
 
   return (
-      <AppNavigator style={styles.mainContainer}>
-      </AppNavigator>
+
+    <NavigationContainer>
+      <TabNavigator />
+    </NavigationContainer>
+
+      // <AppNavigator style={styles.mainContainer}>
+      //   <RndNumberNavigator></RndNumberNavigator>
+      // </AppNavigator>
     
   );
 }

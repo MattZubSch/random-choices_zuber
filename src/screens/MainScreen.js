@@ -16,23 +16,6 @@ import Colors from "../constants/Colors";
 
 
 const MainScreen = ({ navigation }) => { 
-    // const [selection, setSelection] = useState('')
-
-    // const [isPortrait, setIsPortrait] = useState(true)
-
-    // const onPortrait = () => {
-    //     const dim = Dimensions.get('screen');
-    //     return dim.height >= dim.width;
-    // }
-
-    // const statePortrait = () => setIsPortrait(onPortrait())
-
-    // useEffect(() => {
-    //     Dimensions.addEventListener('change', statePortrait)
-    //     return () => {
-    //         Dimensions.removeEventListener('change', statePortrait)
-    //     }
-    // })
 
     return (
         <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={30} style={styles.mainContainer} >
@@ -41,7 +24,7 @@ const MainScreen = ({ navigation }) => {
                  <Card style={styles.categoryContainer}>
                      <Button title={"▶"} style={styles.button}/>
                      <Text style={styles.category} >
-                         Sortear Numero
+                        Sortear Numero
                      </Text>
                  </Card>
              </TouchableOpacity>
@@ -49,7 +32,7 @@ const MainScreen = ({ navigation }) => {
                  <Card style={styles.categoryContainer}>
                      <Button title={"▶"} style={styles.button}/>
                      <Text style={styles.category} >
-                         Sortear por Lista
+                        Sortear por Lista
                      </Text>
                  </Card>
              </TouchableOpacity>
@@ -57,7 +40,7 @@ const MainScreen = ({ navigation }) => {
                  <Card style={styles.categoryContainer}>
                      <Button title={"▶"} style={styles.button}/>
                      <Text style={styles.category} >
-                         Sortear Equipos
+                        Sortear Equipos
                      </Text>
                  </Card>
              </TouchableOpacity>

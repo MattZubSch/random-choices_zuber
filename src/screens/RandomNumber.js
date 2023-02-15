@@ -1,19 +1,101 @@
 import React, {useState} from "react";
-import { View, Text, Button, StyleSheet } from 'react-native'
+import { View, Text, Button, StyleSheet, Dimensions } from 'react-native'
 
-const RandomNumber = ({ navigation}) => {
+import Card from "../Componentes/Card";
+import Input from "../Componentes/Input";
+import Colors from "../constants/Colors";
+import NumberContainer from "../Componentes/NumberContainer";
+import PlayRandomNumber from "./PlayRandomNumber";
 
-    // const [selection, setSelection] = useState('')
+const RandomNumber = ({ navigation }) => {
 
-    // const handlerReturnButton = () => {
-    //     setSelection('')
-    //     props.onSelectOption(selection)
-    // }
+    const [enteredFloorValue, setEnteredFloorValue] = useState('')
+    const [enteredRoofValue, setEnteredRoofValue] = useState('')
+    const [confirmed, setConfirmed] = useState(false)
+    const [selectedFloorNumber, setSelectedFloorNumber] = useState('')
+    const [selectedRoofNumber, setSelectedRoofNumber] = useState('')
+
+    const handlerInputFloorNumber = text => {
+        setEnteredFloorValue(text.replace(/[^0-9]/g, ""))
+      } 
+    
+      const handlerInputRoofNumber = text => {
+        setEnteredRoofValue(text.replace(/[^0-9]/g, ""))
+      } 
+
+      const handlerResetInput = () => {
+        setEnteredFloorValue('')
+        setEnteredRoofValue('')
+        setConfirmed(false)
+      }
+    
+      const handlerConfirmInput = () => {
+        const choseFloorNumber = parseInt(enteredFloorValue)
+        const choseRoofNumber = parseInt(enteredRoofValue)
+        if(choseFloorNumber === NaN || choseRoofNumber === NaN) return
+        
+        setConfirmed(true)
+        setSelectedFloorNumber(parseInt(enteredFloorValue))
+        setEnteredFloorValue('')
+        setSelectedRoofNumber(parseInt(enteredRoofValue))
+        setEnteredRoofValue('')
+      }
 
     return (
         <View style={styles.categoryContainer}>
             <Text style={styles.title}>Sortear Numero</Text>
-            <Button onPress={() => { navigation.navigate('Home')}} title={'Volver'}></Button>
+            <Card style={styles.inputContainer}>
+                <Text style={styles.title}>De</Text>
+                <Input blurOnSubmit
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  keyboardType="numeric"
+                  maxLength={7}
+                  onChangeText={handlerInputFloorNumber}
+                  value={enteredFloorValue}
+                  style={styles.input} />
+                <Text style={styles.title}>Hasta</Text>
+                <Input blurOnSubmit
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  keyboardType="numeric"
+                  maxLength={7}
+                  onChangeText={handlerInputRoofNumber}
+                  value={enteredRoofValue}
+                  style={styles.input} />
+                  <View style={styles.buttonContainer}>
+                    <View style={styles.button}>
+                      <Button 
+                      title='Limpiar' 
+                      onPress={handlerResetInput} 
+                      color={Colors.accent}/>
+                    </View>
+                    <View style={styles.button}>
+                      <Button 
+                      title='Confirmar' 
+                      onPress={handlerConfirmInput} 
+                      color={Colors.primary}/>
+                    </View>
+                </View>
+             </Card>
+            {confirmed && (
+              <Card style={styles.summaryContainer}>
+              <Text>Sortear Desde:</Text>
+              <NumberContainer>{selectedFloorNumber}</NumberContainer>
+              <Text>Hasta:</Text>
+              <NumberContainer>{selectedRoofNumber}</NumberContainer>
+                <Button
+                  title="Empezar Juego"
+                  color={Colors.inputText}
+                  onPress={() => { navigation.navigate('PlayRandomNumber')}}
+                />
+            </Card>
+            )}
+            <View style={styles.exitButton}>
+            <Button title="←" 
+            onPress={() => { navigation.navigate('MainScreen')}}
+            />
+            </View>
         </View>
 
     )
@@ -21,19 +103,55 @@ const RandomNumber = ({ navigation}) => {
 
 const styles = StyleSheet.create ({
     title: {
-        margin: '5%',
-        fontSize: 30,
+        fontSize: 20,
+        marginVertical: 10,
+        color: "black",
+        // fontFamily: 'OpenSansBold'
     },
     categoryContainer:{
         margin: 10,
         flex: 1,
-        backgroundColor: "#EEECE8",
+        backgroundColor: Colors.secondary,
         height: 1,
         alignItems: "center",
     },
     button: {
-        width: 850
-    }
+        width: Dimensions.get('window').width / 4 
+    },
+    input: {
+      alignContent: 'center',
+      color: Colors.inputText,
+      borderBottomWidth: 2,
+      borderBottomColor: "black",
+      width: Dimensions.get('window').width / 4,
+      textAlign: 'center'
+    },
+    buttonContainer: {
+        flexDirection: "row",
+        width: "100%",
+        justifyContent: "space-around",
+        paddingHorizontal: 15,
+        marginTop: 20,
+      },
+      inputContainer: {
+        width: Dimensions.get('window').width,
+        maxWidth: '90%',
+        padding: 20,
+        alignItems: 'center',
+        justifyContent: 'center'
+      },
+      summaryContainer: {
+        width: 300,
+        maxWidth: '50%',
+        marginVertical: 10,
+        padding: 10,
+        alignItems: 'center',
+      },
+      exitButton: {
+        justifyContent: 'flex-start',
+        width: Dimensions.get('window').width / 8,
+        margin: 10,
+      }
 })
 
 export default RandomNumber

@@ -13,7 +13,7 @@ const RandomList = ({navigation}) => {
     return (
         <View style={styles.categoryContainer}>
             <Text style={styles.title}>Sortear por Lista</Text>
-            <Button onPress={() => { navigation.navigate('Home')}} title={'Volver'}></Button>
+            <Button onPress={() => { navigation.navigate('MainScreen')}} title={'Volver'}></Button>
         </View>
 
     )

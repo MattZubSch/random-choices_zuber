@@ -14,25 +14,22 @@ const Stack = createNativeStackNavigator();
 
 const AppNavigator = () => {
     return (
-
-        <NavigationContainer>
-            <Header title={'Random Choices'}/>
-            <Stack.Navigator 
-            initialRouteName='Home'
-            screenOptions={{
-                headerStyle: {
-                    backgroundColor: Platform.OS ==='android' ? Colors.primary : '',
-                },
-                headerTintColor: Platform.OS === 'android' ? 'white' : Colors.primary,
-                headerTitleStyle: {
-                    fontWeight: 'bold'
-                }
-                // headerShown: false,
-                // animation: 'none'
-            }}
-            >
+        <Stack.Navigator 
+        initialRouteName='MainScreen'
+        screenOptions={{
+            headerStyle: {
+                backgroundColor: Platform.OS ==='android' ? Colors.primary : '',
+            },
+            headerTintColor: Platform.OS === 'android' ? 'white' : Colors.primary,
+            headerTitleStyle: {
+                fontWeight: 'bold'
+            }
+            // headerShown: false,
+            // animation: 'none'
+        }}
+        >
                 <Stack.Screen 
-                name='Home' 
+                name='MainScreen' 
                 component={MainScreen}
                 options={{
                     title: 'Inicio'
@@ -56,7 +53,6 @@ const AppNavigator = () => {
                     title: 'Sortear Equipos'
                 }}/>
         </Stack.Navigator>
-    </NavigationContainer>
         )
 }
 
