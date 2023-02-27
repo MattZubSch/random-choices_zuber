@@ -1,17 +1,24 @@
 import React, {useState} from "react";
 import { View, Text, Button, StyleSheet, Dimensions } from 'react-native'
+import { useSelector, useDispatch } from "react-redux";
+import { selectedNumberFloor } from "../store/actions/rndNumberFloor.action";
+import { selectedNumberTop } from "../store/actions/rndNumberTop.action";
 
 import Card from "../Componentes/Card";
 import Input from "../Componentes/Input";
 import Colors from "../constants/Colors";
 import NumberContainer from "../Componentes/NumberContainer";
-import PlayRandomNumber from "./PlayRandomNumber";
+
 
 const RandomNumber = ({ navigation }) => {
+    const dispatch = useDispatch()
+    const numberFloor = useSelector((state) => state.numberFloor.numberFloor)
+    const numberTop = useSelector((state) => state.numberTop.numberTop)
 
     const [enteredFloorValue, setEnteredFloorValue] = useState('')
     const [enteredRoofValue, setEnteredRoofValue] = useState('')
     const [confirmed, setConfirmed] = useState(false)
+
     const [selectedFloorNumber, setSelectedFloorNumber] = useState('')
     const [selectedRoofNumber, setSelectedRoofNumber] = useState('')
 
@@ -39,6 +46,12 @@ const RandomNumber = ({ navigation }) => {
         setEnteredFloorValue('')
         setSelectedRoofNumber(parseInt(enteredRoofValue))
         setEnteredRoofValue('')
+      }
+
+      const handleDrawConfirm = () => {
+        dispatch(selectedNumberFloor(selectedFloorNumber))
+        dispatch(selectedNumberTop(selectedRoofNumber))
+        navigation.navigate('PlayRandomNumber')
       }
 
     return (
@@ -87,7 +100,7 @@ const RandomNumber = ({ navigation }) => {
                 <Button
                   title="Empezar Juego"
                   color={Colors.inputText}
-                  onPress={() => { navigation.navigate('PlayRandomNumber')}}
+                  onPress={handleDrawConfirm}
                 />
             </Card>
             )}

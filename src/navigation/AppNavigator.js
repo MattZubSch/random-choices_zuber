@@ -7,7 +7,7 @@ import MainScreen from "../screens/MainScreen";
 import RandomList from "../screens/RandomList";
 import RandomNumber from "../screens/RandomNumber";
 import RandomTeam from "../screens/RandomTeam";
-import Header from "../Componentes/Header";
+import PlayRandomNumber from "../screens/PlayRandomNumber";
 import Colors from "../constants/Colors";
 
 const Stack = createNativeStackNavigator();
@@ -43,6 +43,12 @@ const AppNavigator = () => {
                 <Stack.Screen 
                 name='RandomNumber' 
                 component={RandomNumber} 
+                options={{
+                    title: 'Sortear Numero'
+                }}/>
+                <Stack.Screen 
+                name='PlayRandomNumber' 
+                component={PlayRandomNumber} 
                 options={{
                     title: 'Sortear Numero'
                 }}/>

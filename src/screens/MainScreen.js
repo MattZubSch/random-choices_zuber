@@ -40,7 +40,7 @@ const MainScreen = ({ navigation }) => {
                  <Card style={styles.categoryContainer}>
                      <Button title={"▶"} style={styles.button}/>
                      <Text style={styles.category} >
-                        Sortear Equipos
+                        Sortear por Equipos
                      </Text>
                  </Card>
              </TouchableOpacity>
