@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { View, Text, Button, StyleSheet, Dimensions } from 'react-native'
+import { View, Text, Button, StyleSheet, Dimensions, TouchableWithoutFeedback, Keyboard} from 'react-native'
 import { useSelector, useDispatch } from "react-redux";
 import { selectedNumberFloor } from "../store/actions/rndNumberFloor.action";
 import { selectedNumberTop } from "../store/actions/rndNumberTop.action";
@@ -12,8 +12,6 @@ import NumberContainer from "../Componentes/NumberContainer";
 
 const RandomNumber = ({ navigation }) => {
     const dispatch = useDispatch()
-    const numberFloor = useSelector((state) => state.numberFloor.numberFloor)
-    const numberTop = useSelector((state) => state.numberTop.numberTop)
 
     const [enteredFloorValue, setEnteredFloorValue] = useState('')
     const [enteredRoofValue, setEnteredRoofValue] = useState('')
@@ -37,15 +35,19 @@ const RandomNumber = ({ navigation }) => {
       }
     
       const handlerConfirmInput = () => {
-        const choseFloorNumber = parseInt(enteredFloorValue)
-        const choseRoofNumber = parseInt(enteredRoofValue)
-        if(choseFloorNumber === NaN || choseRoofNumber === NaN) return
-        
         setConfirmed(true)
-        setSelectedFloorNumber(parseInt(enteredFloorValue))
-        setEnteredFloorValue('')
-        setSelectedRoofNumber(parseInt(enteredRoofValue))
-        setEnteredRoofValue('')
+        Keyboard.dismiss()
+        if (enteredFloorValue < enteredRoofValue) {
+          setSelectedFloorNumber(parseInt(enteredFloorValue))
+          setEnteredFloorValue('')
+          setSelectedRoofNumber(parseInt(enteredRoofValue))
+          setEnteredRoofValue('')
+        } else {
+          setSelectedFloorNumber(parseInt(enteredRoofValue))
+          setEnteredRoofValue('')
+          setSelectedRoofNumber(parseInt(enteredFloorValue))
+          setEnteredFloorValue('')
+        }
       }
 
       const handleDrawConfirm = () => {
@@ -55,61 +57,65 @@ const RandomNumber = ({ navigation }) => {
       }
 
     return (
-        <View style={styles.categoryContainer}>
-            <Text style={styles.title}>Sortear Numero</Text>
-            <Card style={styles.inputContainer}>
-                <Text style={styles.title}>De</Text>
-                <Input blurOnSubmit
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  keyboardType="numeric"
-                  maxLength={7}
-                  onChangeText={handlerInputFloorNumber}
-                  value={enteredFloorValue}
-                  style={styles.input} />
-                <Text style={styles.title}>Hasta</Text>
-                <Input blurOnSubmit
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  keyboardType="numeric"
-                  maxLength={7}
-                  onChangeText={handlerInputRoofNumber}
-                  value={enteredRoofValue}
-                  style={styles.input} />
-                  <View style={styles.buttonContainer}>
-                    <View style={styles.button}>
-                      <Button 
-                      title='Limpiar' 
-                      onPress={handlerResetInput} 
-                      color={Colors.accent}/>
-                    </View>
-                    <View style={styles.button}>
-                      <Button 
-                      title='Confirmar' 
-                      onPress={handlerConfirmInput} 
-                      color={Colors.primary}/>
-                    </View>
-                </View>
-             </Card>
-            {confirmed && (
-              <Card style={styles.summaryContainer}>
-              <Text>Sortear Desde:</Text>
-              <NumberContainer>{selectedFloorNumber}</NumberContainer>
-              <Text>Hasta:</Text>
-              <NumberContainer>{selectedRoofNumber}</NumberContainer>
-                <Button
-                  title="Empezar Juego"
-                  color={Colors.inputText}
-                  onPress={handleDrawConfirm}
-                />
-            </Card>
-            )}
-            <View style={styles.exitButton}>
-            <Button title="←" 
-            onPress={() => { navigation.navigate('MainScreen')}}
-            />
-            </View>
-        </View>
+        <TouchableWithoutFeedback onPress={() => {
+          Keyboard.dismiss()
+        }}>
+          <View style={styles.categoryContainer}>
+              <Text style={styles.title}>Sortear Numero</Text>
+              <Card style={styles.inputContainer}>
+                  <Text style={styles.title}>De</Text>
+                  <Input blurOnSubmit
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    keyboardType="numeric"
+                    maxLength={7}
+                    onChangeText={handlerInputFloorNumber}
+                    value={enteredFloorValue}
+                    style={styles.input} />
+                  <Text style={styles.title}>Hasta</Text>
+                  <Input blurOnSubmit
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    keyboardType="numeric"
+                    maxLength={7}
+                    onChangeText={handlerInputRoofNumber}
+                    value={enteredRoofValue}
+                    style={styles.input} />
+                    <View style={styles.buttonContainer}>
+                      <View style={styles.button}>
+                        <Button 
+                        title='Limpiar' 
+                        onPress={handlerResetInput} 
+                        color={Colors.accent}/>
+                      </View>
+                      <View style={styles.button}>
+                        <Button 
+                        title='Confirmar' 
+                        onPress={handlerConfirmInput} 
+                        color={Colors.primary}/>
+                      </View>
+                  </View>
+               </Card>
+              {confirmed && (
+                <Card style={styles.summaryContainer}>
+                <Text>Sortear Desde:</Text>
+                <NumberContainer>{selectedFloorNumber}</NumberContainer>
+                <Text>Hasta:</Text>
+                <NumberContainer>{selectedRoofNumber}</NumberContainer>
+                  <Button
+                    title="Empezar Juego"
+                    color={Colors.inputText}
+                    onPress={handleDrawConfirm}
+                  />
+              </Card>
+              )}
+              <View style={styles.exitButton}>
+              <Button title="←" 
+              onPress={() => { navigation.navigate('MainScreen')}}
+              />
+              </View>
+          </View>
+        </TouchableWithoutFeedback>
 
     )
 }

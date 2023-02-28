@@ -3,12 +3,6 @@ import { View, Text, Button, StyleSheet } from 'react-native'
 
 const RandomList = ({navigation}) => {
 
-    // const [selection, setSelection] = useState('')
-
-    // const handlerReturnButton = () => {
-    //     setSelection('')
-    //     props.onSelectOption(selection)
-    // }
 
     return (
         <View style={styles.categoryContainer}>

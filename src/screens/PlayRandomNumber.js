@@ -1,20 +1,46 @@
-import React from "react";
+import React, {useState} from "react";
 import { View, Text, Button, StyleSheet, Dimensions } from 'react-native'
 import Colors from "../constants/Colors";
-import RndNumberFloorReducer from "../store/reducers/rndNumberFloor.reducer";
-import RndNumberTopReducer from "../store/reducers/rndNumberTop.reducer";
 import { useSelector } from "react-redux";
+import Card from "../Componentes/Card";
+import NumberContainer from "../Componentes/NumberContainer";
 
 const PlayRandomNumber = ({ navigation }) => {
-    const numMin = useSelector(state => state.numberFloor.numberFloor)
-    const numMax = useSelector(state => state.numberTop.numberTop)
     
+    const [reload, setReload] = useState(true)
     
+    const numMin = useSelector(state => state.numberFloor.selected)
+    const numMax = useSelector(state => state.numberTop.selected)
+    
+    const generateRandom = () => {
+      return Math.floor(Math.random() * (numMax - numMin) + numMin)
+    }
+
+    const reloadResult = () => {
+      setReload(!reload)
+
+    }
+
     return (
         <View style={styles.categoryContainer}>
-            <Text style={styles.title}>Sortear</Text>
-            <Text style={styles.title}>Numero Minimo: {numMin}</Text>
-            <Text style={styles.title}>Numero Maximo: {numMax}</Text>
+            <Text style={styles.title}>Resultado</Text>
+              <Card style={styles.summaryContainer}>
+                {reload && (
+                  <NumberContainer>{generateRandom()}</NumberContainer>
+                )
+                }
+                {!reload && (
+                  <NumberContainer>{generateRandom()}</NumberContainer>
+                )}
+                <View style={styles.buttonContainer}>
+                  <View style={styles.button}>
+                    <Button title='Reiniciar' onPress={reloadResult}></Button>
+                  </View>
+                  <View style={styles.button}>
+                     <Button title="Volver" onPress={() => { navigation.navigate('RandomNumber')}}></Button>
+                  </View>
+                </View>
+              </Card>
         </View>
     )
 }
@@ -26,7 +52,6 @@ const styles = StyleSheet.create ({
         fontSize: 20,
         marginVertical: 10,
         color: "black",
-        // fontFamily: 'OpenSansBold'
     },
     categoryContainer:{
         margin: 10,
@@ -36,7 +61,8 @@ const styles = StyleSheet.create ({
         alignItems: "center",
     },
     button: {
-        width: Dimensions.get('window').width / 4 
+        width: Dimensions.get('window').width / 4,
+        marginBottom: 5
     },
     input: {
       alignContent: 'center',
@@ -52,6 +78,7 @@ const styles = StyleSheet.create ({
         justifyContent: "space-around",
         paddingHorizontal: 15,
         marginTop: 20,
+        
       },
       inputContainer: {
         width: Dimensions.get('window').width,
@@ -62,7 +89,7 @@ const styles = StyleSheet.create ({
       },
       summaryContainer: {
         width: 300,
-        maxWidth: '50%',
+        maxWidth: '80%',
         marginVertical: 10,
         padding: 10,
         alignItems: 'center',

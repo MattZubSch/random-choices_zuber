@@ -50,7 +50,7 @@ const AppNavigator = () => {
                 name='PlayRandomNumber' 
                 component={PlayRandomNumber} 
                 options={{
-                    title: 'Sortear Numero'
+                    title: 'Resultado'
                 }}/>
                 <Stack.Screen 
                 name='RandomTeam' 

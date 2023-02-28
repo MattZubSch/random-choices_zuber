@@ -3,8 +3,8 @@ import RndNumberFloorReducer from './reducers/rndNumberFloor.reducer'
 import RndNumberTopReducer from './reducers/rndNumberTop.reducer'
 
 const RootReducer = (combineReducers) ({
-    numberFloor: RndNumberFloorReducer,
     numberTop: RndNumberTopReducer,
+    numberFloor: RndNumberFloorReducer,
 })  
 
 export default createStore(RootReducer)
